@@ -1,0 +1,66 @@
+Inkl\ValueCareApi\Entity\KomponenteType:
+    properties:
+        komponentenposition:
+            expose: true
+            access_type: public_method
+            serialized_name: Komponentenposition
+            accessor:
+                getter: getKomponentenposition
+                setter: setKomponentenposition
+            type: int
+        hersteller:
+            expose: true
+            access_type: public_method
+            serialized_name: Hersteller
+            accessor:
+                getter: getHersteller
+                setter: setHersteller
+            type: string
+        komponentenkennzeichen:
+            expose: true
+            access_type: public_method
+            serialized_name: Komponentenkennzeichen
+            accessor:
+                getter: getKomponentenkennzeichen
+                setter: setKomponentenkennzeichen
+            type: string
+        typenbezeichnung:
+            expose: true
+            access_type: public_method
+            serialized_name: Typenbezeichnung
+            accessor:
+                getter: getTypenbezeichnung
+                setter: setTypenbezeichnung
+            type: string
+        seriennummer:
+            expose: true
+            access_type: public_method
+            serialized_name: Seriennummer
+            accessor:
+                getter: getSeriennummer
+                setter: setSeriennummer
+            type: string
+        kaufdatum:
+            expose: true
+            access_type: public_method
+            serialized_name: Kaufdatum
+            accessor:
+                getter: getKaufdatum
+                setter: setKaufdatum
+            type: string
+        baujahr:
+            expose: true
+            access_type: public_method
+            serialized_name: Baujahr
+            accessor:
+                getter: getBaujahr
+                setter: setBaujahr
+            type: string
+        kaufpreis:
+            expose: true
+            access_type: public_method
+            serialized_name: Kaufpreis
+            accessor:
+                getter: getKaufpreis
+                setter: setKaufpreis
+            type: string

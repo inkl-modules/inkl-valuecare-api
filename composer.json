@@ -1,9 +1,11 @@
 {
     "name": "inkl/valuecare-api",
     "require": {
-        "guzzlehttp/guzzle": "^6.3.3"
+        "guzzlehttp/guzzle": "^6.3.3",
+	    "goetas-webservices/xsd2php-runtime": "^0.2.9"
     },
     "require-dev": {
+        "goetas-webservices/xsd2php": "^0.3.4"
     },
 	"autoload": {
 		"psr-4": {

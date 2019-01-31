@@ -1,0 +1,13 @@
+Inkl\ValueCareApi\Entity\AntragGeraetType\KomponentenAType:
+    properties:
+        komponente:
+            expose: true
+            access_type: public_method
+            serialized_name: Komponente
+            accessor:
+                getter: getKomponente
+                setter: setKomponente
+            xml_list:
+                inline: true
+                entry_name: Komponente
+            type: array<Inkl\ValueCareApi\Entity\AntragKomponenteType>

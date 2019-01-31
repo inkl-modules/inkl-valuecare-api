@@ -1,0 +1,18 @@
+Inkl\ValueCareApi\Entity\Antraege\AntragAType\DokumentAType:
+    properties:
+        dateityp:
+            expose: true
+            access_type: public_method
+            serialized_name: Dateityp
+            accessor:
+                getter: getDateityp
+                setter: setDateityp
+            type: string
+        dateiB64:
+            expose: true
+            access_type: public_method
+            serialized_name: DateiB64
+            accessor:
+                getter: getDateiB64
+                setter: setDateiB64
+            type: string

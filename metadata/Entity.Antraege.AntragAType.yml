@@ -1,0 +1,174 @@
+Inkl\ValueCareApi\Entity\Antraege\AntragAType:
+    properties:
+        satznummer:
+            expose: true
+            access_type: public_method
+            serialized_name: Satznummer
+            accessor:
+                getter: getSatznummer
+                setter: setSatznummer
+            type: string
+        vorgangsnummer:
+            expose: true
+            access_type: public_method
+            serialized_name: Vorgangsnummer
+            accessor:
+                getter: getVorgangsnummer
+                setter: setVorgangsnummer
+            type: string
+        archivID:
+            expose: true
+            access_type: public_method
+            serialized_name: ArchivID
+            accessor:
+                getter: getArchivID
+                setter: setArchivID
+            type: string
+        dokument:
+            expose: true
+            access_type: public_method
+            serialized_name: Dokument
+            accessor:
+                getter: getDokument
+                setter: setDokument
+            type: Inkl\ValueCareApi\Entity\Antraege\AntragAType\DokumentAType
+        antragsdatum:
+            expose: true
+            access_type: public_method
+            serialized_name: Antragsdatum
+            accessor:
+                getter: getAntragsdatum
+                setter: setAntragsdatum
+            type: string
+        vermittlernummer:
+            expose: true
+            access_type: public_method
+            serialized_name: Vermittlernummer
+            accessor:
+                getter: getVermittlernummer
+                setter: setVermittlernummer
+            type: int
+        bestandsvertrag:
+            expose: true
+            access_type: public_method
+            serialized_name: Bestandsvertrag
+            accessor:
+                getter: getBestandsvertrag
+                setter: setBestandsvertrag
+            type: int
+        kundennummer:
+            expose: true
+            access_type: public_method
+            serialized_name: Kundennummer
+            accessor:
+                getter: getKundennummer
+                setter: setKundennummer
+            type: int
+        kundendaten:
+            expose: true
+            access_type: public_method
+            serialized_name: Kundendaten
+            accessor:
+                getter: getKundendaten
+                setter: setKundendaten
+            type: Inkl\ValueCareApi\Entity\PersonendatenType
+        firmendaten:
+            expose: true
+            access_type: public_method
+            serialized_name: Firmendaten
+            accessor:
+                getter: getFirmendaten
+                setter: setFirmendaten
+            type: Inkl\ValueCareApi\Entity\FirmendatenType
+        geraet:
+            expose: true
+            access_type: public_method
+            serialized_name: Geraet
+            accessor:
+                getter: getGeraet
+                setter: setGeraet
+            xml_list:
+                inline: true
+                entry_name: Geraet
+            type: array<Inkl\ValueCareApi\Entity\AntragGeraetType>
+        kommunikation:
+            expose: true
+            access_type: public_method
+            serialized_name: Kommunikation
+            accessor:
+                getter: getKommunikation
+                setter: setKommunikation
+            xml_list:
+                inline: true
+                entry_name: Kommunikation
+            type: array<Inkl\ValueCareApi\Entity\AntragKommunikationType>
+        rad:
+            expose: true
+            access_type: public_method
+            serialized_name: Rad
+            accessor:
+                getter: getRad
+                setter: setRad
+            xml_list:
+                inline: true
+                entry_name: Rad
+            type: array<Inkl\ValueCareApi\Entity\AntragRadType>
+        gebaeude:
+            expose: true
+            access_type: public_method
+            serialized_name: Gebaeude
+            accessor:
+                getter: getGebaeude
+                setter: setGebaeude
+            xml_list:
+                inline: true
+                entry_name: Gebaeude
+            type: array<Inkl\ValueCareApi\Entity\AntragGebaeudeType>
+        abwVertragsbeginn:
+            expose: true
+            access_type: public_method
+            serialized_name: AbwVertragsbeginn
+            accessor:
+                getter: getAbwVertragsbeginn
+                setter: setAbwVertragsbeginn
+            type: string
+        vertragsnummer:
+            expose: true
+            access_type: public_method
+            serialized_name: Vertragsnummer
+            accessor:
+                getter: getVertragsnummer
+                setter: setVertragsnummer
+            type: int
+        produktdetails:
+            expose: true
+            access_type: public_method
+            serialized_name: Produktdetails
+            accessor:
+                getter: getProduktdetails
+                setter: setProduktdetails
+            type: Inkl\ValueCareApi\Entity\Antraege\AntragAType\ProduktdetailsAType
+        zahlung:
+            expose: true
+            access_type: public_method
+            serialized_name: Zahlung
+            accessor:
+                getter: getZahlung
+                setter: setZahlung
+            type: Inkl\ValueCareApi\Entity\Antraege\AntragAType\ZahlungAType
+        aktionscode:
+            expose: true
+            access_type: public_method
+            serialized_name: Aktionscode
+            accessor:
+                getter: getAktionscode
+                setter: setAktionscode
+            type: string
+        bemerkung:
+            expose: true
+            access_type: public_method
+            serialized_name: Bemerkung
+            accessor:
+                getter: getBemerkung
+                setter: setBemerkung
+            type: string

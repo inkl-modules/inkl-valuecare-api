@@ -1,0 +1,10 @@
+Inkl\ValueCareApi\Entity\Antraege\AntragAType\ProduktdetailsAType\BeratungsprotokolleAType\ProtokollAType:
+    properties:
+        beratungsbaustein:
+            expose: true
+            access_type: public_method
+            serialized_name: Beratungsbaustein
+            accessor:
+                getter: getBeratungsbaustein
+                setter: setBeratungsbaustein
+            type: string

@@ -1,0 +1,10 @@
+Inkl\ValueCareApi\Entity\AntragRisikoType:
+    properties:
+        risikotyp:
+            expose: true
+            access_type: public_method
+            serialized_name: Risikotyp
+            accessor:
+                getter: getRisikotyp
+                setter: setRisikotyp
+            type: string

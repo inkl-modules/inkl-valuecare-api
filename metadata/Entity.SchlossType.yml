@@ -1,0 +1,34 @@
+Inkl\ValueCareApi\Entity\SchlossType:
+    properties:
+        hersteller:
+            expose: true
+            access_type: public_method
+            serialized_name: Hersteller
+            accessor:
+                getter: getHersteller
+                setter: setHersteller
+            type: string
+        art:
+            expose: true
+            access_type: public_method
+            serialized_name: Art
+            accessor:
+                getter: getArt
+                setter: setArt
+            type: string
+        typenbezeichnung:
+            expose: true
+            access_type: public_method
+            serialized_name: Typenbezeichnung
+            accessor:
+                getter: getTypenbezeichnung
+                setter: setTypenbezeichnung
+            type: string
+        schluesselnummer:
+            expose: true
+            access_type: public_method
+            serialized_name: Schluesselnummer
+            accessor:
+                getter: getSchluesselnummer
+                setter: setSchluesselnummer
+            type: string

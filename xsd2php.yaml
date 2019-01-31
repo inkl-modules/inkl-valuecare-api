@@ -1,0 +1,9 @@
+xsd2php:
+  namespaces:
+    '': 'Inkl\ValueCareApi\Entity'
+  destinations_php:
+    'Inkl\ValueCareApi\Entity': ./src/Entity
+  destinations_jms:
+    'Inkl\ValueCareApi': ./metadata
+  naming_strategy: short
+  path_generator: psr4

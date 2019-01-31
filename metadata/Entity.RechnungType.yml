@@ -1,0 +1,77 @@
+Inkl\ValueCareApi\Entity\RechnungType:
+    properties:
+        rechnungsnummer:
+            expose: true
+            access_type: public_method
+            serialized_name: Rechnungsnummer
+            accessor:
+                getter: getRechnungsnummer
+                setter: setRechnungsnummer
+            type: string
+        rechnungsdatum:
+            expose: true
+            access_type: public_method
+            serialized_name: Rechnungsdatum
+            accessor:
+                getter: getRechnungsdatum
+                setter: setRechnungsdatum
+            type: string
+        rechnungsposition:
+            expose: true
+            access_type: public_method
+            serialized_name: Rechnungsposition
+            accessor:
+                getter: getRechnungsposition
+                setter: setRechnungsposition
+            xml_list:
+                inline: true
+                entry_name: Rechnungsposition
+            type: array<Inkl\ValueCareApi\Entity\RechnungspositionType>
+        mwstSatz:
+            expose: true
+            access_type: public_method
+            serialized_name: MwstSatz
+            accessor:
+                getter: getMwstSatz
+                setter: setMwstSatz
+            type: string
+        rechnungsbetrag:
+            expose: true
+            access_type: public_method
+            serialized_name: Rechnungsbetrag
+            accessor:
+                getter: getRechnungsbetrag
+                setter: setRechnungsbetrag
+            type: string
+        versandrechnung:
+            expose: true
+            access_type: public_method
+            serialized_name: Versandrechnung
+            accessor:
+                getter: getVersandrechnung
+                setter: setVersandrechnung
+            type: bool
+        handlingrechnung:
+            expose: true
+            access_type: public_method
+            serialized_name: Handlingrechnung
+            accessor:
+                getter: getHandlingrechnung
+                setter: setHandlingrechnung
+            type: bool
+        reklamation:
+            expose: true
+            access_type: public_method
+            serialized_name: Reklamation
+            accessor:
+                getter: getReklamation
+                setter: setReklamation
+            type: bool
+        keinSBAbzug:
+            expose: true
+            access_type: public_method
+            serialized_name: KeinSBAbzug
+            accessor:
+                getter: getKeinSBAbzug
+                setter: setKeinSBAbzug
+            type: bool

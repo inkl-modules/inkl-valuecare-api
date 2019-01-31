@@ -1,0 +1,133 @@
+Inkl\ValueCareApi\GeraetType:
+    properties:
+        geraeteposition:
+            expose: true
+            access_type: public_method
+            serialized_name: Geraeteposition
+            accessor:
+                getter: getGeraeteposition
+                setter: setGeraeteposition
+            type: int
+        hersteller:
+            expose: true
+            access_type: public_method
+            serialized_name: Hersteller
+            accessor:
+                getter: getHersteller
+                setter: setHersteller
+            type: string
+        geraetekennzeichen:
+            expose: true
+            access_type: public_method
+            serialized_name: Geraetekennzeichen
+            accessor:
+                getter: getGeraetekennzeichen
+                setter: setGeraetekennzeichen
+            type: int
+        sondergeraet:
+            expose: true
+            access_type: public_method
+            serialized_name: Sondergeraet
+            accessor:
+                getter: getSondergeraet
+                setter: setSondergeraet
+            type: int
+        typenbezeichnung:
+            expose: true
+            access_type: public_method
+            serialized_name: Typenbezeichnung
+            accessor:
+                getter: getTypenbezeichnung
+                setter: setTypenbezeichnung
+            type: string
+        seriennummer:
+            expose: true
+            access_type: public_method
+            serialized_name: Seriennummer
+            accessor:
+                getter: getSeriennummer
+                setter: setSeriennummer
+            type: string
+        seriennummer2:
+            expose: true
+            access_type: public_method
+            serialized_name: Seriennummer2
+            accessor:
+                getter: getSeriennummer2
+                setter: setSeriennummer2
+            type: string
+        kaufdatum:
+            expose: true
+            access_type: public_method
+            serialized_name: Kaufdatum
+            accessor:
+                getter: getKaufdatum
+                setter: setKaufdatum
+            type: string
+        baujahr:
+            expose: true
+            access_type: public_method
+            serialized_name: Baujahr
+            accessor:
+                getter: getBaujahr
+                setter: setBaujahr
+            type: string
+        kaufpreis:
+            expose: true
+            access_type: public_method
+            serialized_name: Kaufpreis
+            accessor:
+                getter: getKaufpreis
+                setter: setKaufpreis
+            type: string
+        kaufpreisklasse:
+            expose: true
+            access_type: public_method
+            serialized_name: Kaufpreisklasse
+            accessor:
+                getter: getKaufpreisklasse
+                setter: setKaufpreisklasse
+            type: string
+        garantie:
+            expose: true
+            access_type: public_method
+            serialized_name: Garantie
+            accessor:
+                getter: getGarantie
+                setter: setGarantie
+            type: int
+        sofortschutz:
+            expose: true
+            access_type: public_method
+            serialized_name: Sofortschutz
+            accessor:
+                getter: getSofortschutz
+                setter: setSofortschutz
+            type: bool
+        diebstahlschutz:
+            expose: true
+            access_type: public_method
+            serialized_name: Diebstahlschutz
+            accessor:
+                getter: getDiebstahlschutz
+                setter: setDiebstahlschutz
+            type: bool
+        schloss:
+            expose: true
+            access_type: public_method
+            serialized_name: Schloss
+            accessor:
+                getter: getSchloss
+                setter: setSchloss
+            type: Inkl\ValueCareApi\SchlossType
+        komponente:
+            expose: true
+            access_type: public_method
+            serialized_name: Komponente
+            accessor:
+                getter: getKomponente
+                setter: setKomponente
+            xml_list:
+                inline: true
+                entry_name: Komponente
+            type: array<Inkl\ValueCareApi\KomponenteType>

@@ -1,0 +1,1374 @@
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="Kuendigung">
+        <xs:annotation>
+            <xs:documentation>Kündigungsdatensatz, enthält alle relevanten Informationen die für eine Kündigung notwendig sind.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element name="Antragssatznummer" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Der zu stornierende Antrag. Ein eventuell aus dem Antrag entstandener Vertrag wird gekündigt.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Vertragsnummer" type="xs:positiveInteger" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Die Vertragsnummer die für den Antrag reserviert und im Feld WebVertragsnummer geliefert wurde.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:element name="Vertragsnummer" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>Der zu kündigende Vertrag.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:element name="Geraete" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Liste der Geräte die gekündigt werden sollen. Wird die Liste nicht angegeben, werden alle Geräte gekündigt.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Geraet" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Gerät das gekündigt werden soll.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="Position" type="xs:positiveInteger">
+                                        <xs:annotation>
+                                            <xs:documentation>Laufende Nummer des zu kündigenden Gerätes am Vertrag.</xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                    <xs:element name="Risikotyp" type="xs:string" minOccurs="0">
+                                        <xs:annotation>
+                                            <xs:documentation>Risiko das gekündigt werden soll. Wird kein Risikotyp angegeben, werden alle Risiken gekündigt.</xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Kuendigungsgrund" type="xs:positiveInteger" minOccurs="0" default="99">
+                <xs:annotation>
+                    <xs:documentation>Schlüssel für den Kündigungsgrund. Wird kein Grund übergeben, wird der Wert 99 (ohne Angabe eines Grundes) verwendet.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Kuendigungsdatum" type="Datum" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Zu wann soll die Kündigung wirksam werden (Format TT.MM.JJJJ)? Wird das Feld nicht gefüllt, so wird der nächstmögliche Kündigungstermin verwendet.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Bemerkung" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Eventuelle Anmerkungen zur Kündigung oder Hinweise für die manuelle Nachbearbeitung. Erzwingt keine manuelle Nacharbeit.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="4000" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Kuendigungsbestaetigung" type="xs:boolean" minOccurs="0" default="false">
+                <xs:annotation>
+                    <xs:documentation>Soll dem Kunden eine Bestätigung gesendet werden?</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BankkontoDeaktivieren" type="xs:boolean" minOccurs="0" default="false">
+                <xs:annotation>
+                    <xs:documentation>Soll die genutze BV deaktiviert werden?</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Nachbearbeitung" type="xs:boolean" minOccurs="0" default="false">
+                <xs:annotation>
+                    <xs:documentation>Soll die Kündigung auf jeden Fall in die manuelle Nachbearbeitung (Schwebe) gegeben werden?</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Werbestopp" type="xs:boolean" minOccurs="0" default="false">
+                <xs:annotation>
+                    <xs:documentation>Soll für den Kunden ein Werbe-/Kontaktstopp gesetzt werden?</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Erstattungsempfaenger" type="xs:string" minOccurs="0" default="STANDARD">
+                <xs:annotation>
+                    <!--Empfänger der gegebenenfalls fälligen Beitragsrückerstattung bei Vertragskündigung.
+                                                Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.-->
+                    <xs:documentation>
+                        Feld wird aktuell nicht berücksichtigt!
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Partner">
+        <xs:annotation>
+            <xs:documentation>Partnerdatensatz, enthält alle Datenfelder zu einer Person.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Partnernummer" type="xs:positiveInteger">
+                <xs:annotation>
+                    <xs:documentation>Eindeutige Identifikationsnummer des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Anrede" type="xs:positiveInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Anrede des Partners (Frau, Herr, Firma usw.).
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Zusatzanrede" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Zusatz zur Anrede des Partners (von, van de usw.).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AkademischerTitel" type="xs:positiveInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Akademischer Titel des Partners (Dr., Prof. usw).
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Vorname" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Vorname des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Nachname" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Nachname des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name2" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Weitere Nachnamen des Partners. Bei Anrede Firma steht hier der Firmenname.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Geburtsdatum" type="Datum" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Geburtsdatum des Partners (Format TT.MM.JJJJ).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TelefonPrivat" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Private Telefonnummer des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TelefonGeschaeftlich" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Geschäftliche Telefonnummer des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FaxPrivat" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Private Faxnummer des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FaxGeschaeftlich" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Geschäftliche Faxnummer des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MobilPrivat" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Private Handynummer des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MobilGeschaeftlich" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Geschäftliche Handynummer des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmailPrivat" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Private Emailadresse des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmailGeschaeftlich" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Geschäftliche Emailadresse des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Homepage" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Homepage des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Steuernummer" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Steuernummer des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SteuerLKZ" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Steuerland des Partners.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Staatsangehoerigkeit" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Staatsangehörigkeit des Partners.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Sprache" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Sprache des Partners.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Werbeeinwilligung" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Erlaubte Kontaktwege (für Werbung etc.) zum Partner.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BVSepa">
+        <xs:annotation>
+            <xs:documentation>Bankverbindung nach SEPA für Zahlungen/Einzüge.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="IBAN" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Die IBAN der Bankverbindung.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Kontoinhaber" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Der Nachname des Kontoinhabers. (Kann nur nach Abstimmung/Freischaltung gefüllt werden)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BKO_Ident_Nr" type="xs:positiveInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Interner Schlüsel für eine Bankverbindung. (Kann nur nach Abstimmung/Freischaltung gefüllt werden)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Mandatsreferenz" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Wurde vom Kunden ein Sepamandat eingeholt und eine von WGG bereitgestellte Mandatsreferenz kommuniziert, ist dieses hier zu vermerken. (Kann nur nach Abstimmung/Freischaltung gefüllt werden)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Geraet">
+        <xs:annotation>
+            <xs:documentation>Gerätedatensatz, enthält alle Datenfelder zu einem Gerät.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Geraeteposition" type="xs:positiveInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional, Pflicht bei defektem Gerät in einer Schadenmeldung) Diese Nummer gibt die Position des Gerätes am Vertrag an (1. Gerät 2. Gerät etc.)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Hersteller" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Code für den Gerätehersteller. Wird der Name des Herstellers angegeben wird der zugehörige Code später ermittelt.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Geraetekennzeichen" type="xs:positiveInteger">
+                <xs:annotation>
+                    <xs:documentation>
+                        Kennzeichen für die Art des Gerätes.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Sondergeraet" type="xs:positiveInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        (optional, Pflicht bei Gerätekennzeichen 27, 44 und 49) Diese Nummer wird zur weiteren Differenzierung der Geräteart verwendet (Fahrrad - Mountainbike usw.).
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Typenbezeichnung" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Die Typen- oder Modellbezeichnung des Herstellers für das Gerät (UE58H5270, SM G-901F usw.).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Seriennummer">
+                <xs:annotation>
+                    <xs:documentation>Die Seriennummer des Gerätes (Bei Fahrrädern die Rahmennummer; Bei Mobilfunkgeräten die IMEI).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Seriennummer2" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) 2.Seriennummer eines Gerätes (z.B. Akkunummer eines E-Bike).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Kaufdatum" type="Datum" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional, Pflicht bei Neugeräten) Das Datum an dem das Gerät gekauft wurde (Format TT.MM.JJJJ).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Baujahr" type="Datum" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Das Baujahr des Gerätes (Format JJJJ). Wird das Feld nicht gefüllt, wird das Baujahr aus dem Kaufdatum abgeleitet.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional, Plicht bei Neugeräten) Es kann entweder ein Kaufpreis oder ein Preisbereich (Kaufpreisklasse) angeliefert werden.</xs:documentation>
+                </xs:annotation>
+                <xs:element name="Kaufpreis" type="Betrag">
+                    <xs:annotation>
+                        <xs:documentation>Der Preis der beim Kauf für das Gerät bezahlt wurde.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Kaufpreisklasse" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Anstatt eines konkreten Kaufpreises kann eine Kaufpreisklasse angegeben werden (z.B.: BIS_600). Die erlaubten Kaufpreisklassen sind vom Produkttyp abhängig und können mittels Webservce (get_purchase_price_classes) abgefragt werden.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:element name="Garantie" type="xs:positiveInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Restgarantie des Herstellers für das Gerät bei Antragstellung in Monaten.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Sofortschutz" type="xs:boolean" minOccurs="0" default="false">
+                <xs:annotation>
+                    <xs:documentation>
+                        (optional) Ist ein zusätzlicher Sofortschutz (Das Gerät ist mit Antragsstellung bereits geschützt) gewünscht? Bei manchen unserer Produkte ist der Sofortschutz optional zubuchbar. Wird hier "true" angegeben, wird ein optionaler Sofortschutz dazugebucht.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Diebstahlschutz" type="xs:boolean" minOccurs="0" default="false">
+                <xs:annotation>
+                    <xs:documentation>
+                        (optional) Ist ein zusätzlicher Diebstahlschutz gewünscht? Bei manchen unserer Produkte ist der Diebstahlschutz optional zubuchbar. Wird hier "true" angegeben, wird der optionaler Diebstahlschutz dazugebucht.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Schloss" type="Schloss" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional, Pflicht bei Fahrradprodukten mit Diebstahlschutz) Angaben zum verwendeten Schloss. </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Komponente" type="Komponente" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>(optional, Pflicht bei komponentenfähigen Geräten. Höchsten 1 Komponent bei einer Schadenmeldung) Komponentendatensatz, enthält alle  von komponentenfähigen Geräten, wie z.B. Kombination aus Herd und Ceranfeld oder Hifi-Anlagen.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Komponente">
+        <xs:annotation>
+            <xs:documentation>Komponentendatensatz, enthält alle Datenfelder zu einer Komponente eines Gerätes.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Komponentenposition" type="xs:positiveInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional, Pflicht bei defekter Komponente in einer Schadenmeldung) Diese Nummer gibt die Position der Komponente am Gerät an (1.Komponente 2.Komponente etc.)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Hersteller" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Code für den Komponentenehersteller. Wird der Name des Herstellers angegeben wird der zugehörige Code später ermittelt.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Komponentenkennzeichen" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Kennzeichen für die Art der Komponente
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Typenbezeichnung" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Die Typen- oder Modellbezeichnung des Herstellers für die Komponente (SP 15-30mm F/2.8 Di VC USD usw.).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Seriennummer">
+                <xs:annotation>
+                    <xs:documentation>Die Seriennummer der Komponente.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Kaufdatum" type="Datum" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional, Pflicht bei Neugeräten) Das Datum an dem die Komponente gekauft wurde (Format TT.MM.JJJJ).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Baujahr" type="Datum" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Das Baujahr der Komponente (Format JJJJ). Wird das Feld nicht gefüllt, wird das Baujahr aus dem Kaufdatum abgeleitet.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Kaufpreis" type="Betrag" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional, Pflicht bei Neugeräten) Der Preis der beim Kauf für die Komponente bezahlt wurde.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Schloss">
+        <xs:annotation>
+            <xs:documentation>Schlossdatensatz, enthält alle Datenfelder zu einem Schloss.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Hersteller" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Code für den Schlosshersteller. Wird der Name des Herstellers angegeben wird der zugehörige Code später ermittelt.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Art" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Art des Schlosses (Bügelschloss, Zahlenschloss, ...).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Typenbezeichnung" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Typen- oder Modellbezeichnung des Schlosses.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Schluesselnummer" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Schlüsselnummer des Schlosses.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Rechnung">
+        <xs:annotation>
+            <xs:documentation>Rechnungsdatensatz, enthält alle Datenfelder zu einer Rechnung.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Rechnungsnummer" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Die Rechnungsnummer.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Rechnungsdatum" type="Datum">
+                <xs:annotation>
+                    <xs:documentation>Das Rechnungsdatum (Format TT.MM.JJJJ).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Rechnungsposition" type="Rechnungsposition" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Rechnungspositionsdatensatz, enthält alle Datenfelder zu einer Rechnungsposition.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MwstSatz" type="Betrag">
+                <xs:annotation>
+                    <xs:documentation>Mehrwertsteuersatz für die Rechnung.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Rechnungsbetrag" type="Betrag">
+                <xs:annotation>
+                    <xs:documentation>Der Brutto-Rechnungsbetrag inkl. Umsatzsteuer. Errechnet sich aus der Summe der Rechnungseinzelpositionen zzgl. der Umsatzsteuer gemäß MwstSatz aus der Rechnung.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice minOccurs="0">
+                <xs:element name="Versandrechnung" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>(optional) Enthält diese Rechnung ausschließlich Versandkosten bei einem Versanddienstleister (z.B: DHL)? Die Verwendung dieses Feldes ist nur nach separater Freischaltung möglich.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Handlingrechnung" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>(optional) Enthält diese Rechnung ausschließlich eine Handlings- oder Überprüfungspauschale? Die Verwendung dieses Feldes ist nur nach separater Freischaltung möglich.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Reklamation" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>(optional) Handelt es sich bei dieser Rechnung um Kosten aus einer Reklamation einer Schadenabwicklung? Die Verwendung dieses Feldes ist nur nach separater Freischaltung möglich.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="KeinSBAbzug" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>(optional) Wenn true wird eine evntuell anfallende SB vom System nicht von dieser Rechnung abgezogen. Die Verwendung dieses Feldes ist nur nach separater Freischaltung möglich.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Rechnungsposition">
+        <xs:annotation>
+            <xs:documentation>Rechnungsdatensatz, enthält alle Datenfelder zu einer Rechnung.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Nummer" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Die Position innerhalb der Rechnung.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Kategorie" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Kategorie der Rechnungsposition.
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Eine Liste aller zugelassenen Werte sind in folgender Tabelle zu finden: http://www.wertgarantie.de/XMLSchema/internet_xsd_schluesseltabelle_DE.xls.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Bezeichnung" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Die Bezeichnung der Rechnungsposition (Name des Ersatzteils usw.).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:annotation>
+                    <xs:documentation>Entweder muss der Gesamtpreis der Position angegeben werden oder die Menge und der Einzelpreis.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="Menge" type="xs:positiveInteger">
+                        <xs:annotation>
+                            <xs:documentation>Anzahl wie oft die Leistung dieser Position erbracht wurde.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Einzelpreis" type="Betrag">
+                        <xs:annotation>
+                            <xs:documentation>Einzelpreis der Leistung. (Netto ohne Umsatzsteuer)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:element name="Positionswert" type="Betrag">
+                    <xs:annotation>
+                        <xs:documentation>Gesamtpreis dieser Rechnungsposition. (Netto ohne Umsatzsteuer)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:element name="MwstSatz" type="Betrag" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Mehrwertsteuersatz für diese Einzelposition. Darf nur angegeben werden wenn für diese Position ein anderer Steuersatz gilt als den für die gesamte Rechnung engegebenen.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="Datum">
+        <xs:annotation>
+            <xs:documentation>Ein Datum im Format TT.MM.JJJJ</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)[0-9]{2}" />
+            <xs:length value="10" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Betrag">
+        <xs:annotation>
+            <xs:documentation>Ein Betrag mit maximal 2 Nachkommastellen ohne Tauserndertrennzeichen im Format ddd,dd.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{5}(?:[,]\d{2})?" />
+            <xs:minLength value="1" />
+            <xs:maxLength value="8" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Personendaten">
+        <xs:annotation>
+            <xs:documentation>Personendatansatz mit Anschrift und Details zur Person</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Anrede" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Anrede der Person (Frau, Herr)
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Titel" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        (optional) Titel der Person (Dr., Prof. usw)
+                        Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Vorname" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Vorname der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Nachname" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Nachname der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Geburtsdatum" type="Datum" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Geburtsdatum der Person (Format: TT.MM.JJJJ)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmailPrivat" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Private Emailadresse der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmailGeschaeftlich" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Geschäftliche Emailadresse der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TelefonPrivat" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Private Telefonnummer der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TelefonGeschaeftlich" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Geschäftliche Telefonnummer der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MobilPrivat" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Private Handynummer der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MobilGeschaeftlich" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Geschäftliche Handynummer der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FaxPrivat" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <!--  (TODO: wieder raus? Klärung BO -->
+                    <xs:documentation>Private Faxnummer der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FaxGeschaeftlich" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <!--  (TODO: wieder raus? Klärung BO -->
+                    <xs:documentation>Geschäftliche Faxnummer der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Sprachkennzeichen" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Sprachkennzeichen der Person. Wird kein Sprachkennzeichen übergeben, wird die Sprache aus der Anschrift abgeleitet. (Für CH: DE)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Steuernummer" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        (optional) Steuernummer der Person. Wird nur in Ausnahmefällen benötigt.
+                        Kann nur nach Abstimmung/Freischaltung gefüllt werden
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Anschrift" type="Anschrift">
+                <xs:annotation>
+                    <xs:documentation>Adresse der Person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Anschrift">
+        <xs:annotation>
+            <xs:documentation>Eine vollständige Anschrift</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Strasse" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Strassename der Anschrift mit Hausnummer</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Adresszusatz" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Zusatzinformation zur Anschrift (z. B. 'Hinterhof' oder '3.OG links')</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PLZ" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Postleitzahl der Anschrift</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Ort" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Ort der Anschrift</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!--  TODO: Klärung ob in SST aus addressware ermittelbar. Falls ja, ggf wieder raus-->
+            <xs:element name="Laenderkennzeichen" type="xs:string" minOccurs="0" default="DE">
+                <xs:annotation>
+                    <xs:documentation>(optional) Länderkennzeichen der Anschrift nach ISO-3166-ALPHA-2</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Firmendaten">
+        <xs:annotation>
+            <xs:documentation>Firmendatensatz mit Anschrift und Details zur Firma</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Firmenname" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Vollständiger Name der Firma (z.B.: LBR + DRE AG)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="KontaktVorname" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Vorname des Ansprechpartners</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="KontaktNachname" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Nachname des Ansprechpartners</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Email" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Emailadresse für Kontakte durch WERTGARANTIE (ggf. vom Ansprechpartner)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Telefon" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Telefonnummer für Kontakte durch WERTGARANTIE (ggf. vom Ansprechpartner)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Mobil" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Handynummer für Kontakte durch WERTGARANTIE (ggf. vom Ansprechpartner)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Fax" type="xs:string" minOccurs="0">
+                <!--  (TODO: wieder raus? Klärung BO -->
+                <xs:annotation>
+                    <xs:documentation>Faxnummer für Kontakte durch WERTGARANTIE (ggf. vom Ansprechpartner)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Sprachkennzeichen" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Sprachkennzeichen für Kontaktaufnahme durch WERTGARANTIE. Wird kein Sprachkennzeichen übergeben, wird die Sprache aus der Anschrift abgeleitet. (Für CH: DE)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="UstID" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        (optional) Umsatzsteueridentifikation der Firma. Wird nur in Ausnahmefällen benötigt.
+                        Kann nur nach Abstimmung/Freischaltung gefüllt werden
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Anschrift" type="Anschrift">
+                <xs:annotation>
+                    <xs:documentation>Postanschrift der Firma</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AntragBVSepa">
+        <xs:annotation>
+            <xs:documentation>Bankverbindung nach SEPA für Zahlungen/Einzüge.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="IBAN" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Die IBAN der Bankverbindung.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Mandatsreferenz" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Wurde vom Kunden ein Sepamandat eingeholt und eine von WGG bereitgestellte Mandatsreferenz kommuniziert, ist dieses hier zu vermerken.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AntragRisiko">
+        <xs:sequence>
+            <xs:element name="Risikotyp" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Technischer Name des ausgewählten Risikos.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AntragGeraet">
+        <xs:annotation>
+            <xs:documentation>Gerätedatensatz, enthält alle Datenfelder zu einem Gerät</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Position" type="xs:positiveInteger">
+                <xs:annotation>
+                    <xs:documentation>Position des Gerätes im Antrag. Wird später am Vertrag übernommen.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="Hersteller" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Name des Geräteherstellers (z.b: Siemens)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="HerstellerCode" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Herstellercode von WERTGARANTIE
+                            Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:choice>
+                <xs:element name="Geraetekennzeichen" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            WERTGARANTIE Gerätekennzeichen für die Art des Gerätes
+                            Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="Mapping" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>WERTGARANTIE bietet die Möglichkeit verschiedene, partnerindividuelle Mappings für die Ermittlung von Gerätekennzeichen zu nutzen. In diesem Feld kann der Name des zu nutzenden Mappings hinterlegt werden. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Geraetetyp" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Art des Gerätes (z.B: Kühlschrank)
+                                Aus diesem Feld wird das WERTGARANTIE Gerätekennzeichen aus dem zuvor angegeben Mapping abgeleitet.  (Nur nach separater Abstimmung und Freischaltung nutzbar)
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:choice>
+            <xs:element name="Modellbezeichnung" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Die Typen- oder Modellbezeichnung des Herstellers für das Gerät (z.B: UE58H5270).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Seriennummer" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Die Seriennummer des Gerätes. (Bei Mobilfunk, Fahrrädern und e-Bikes nicht füllen!)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <!--  fachliche Klärung durch LBR wie genau das hier funktionieren soll -->
+            <xs:element name="Kaufdatum" type="Datum">
+                <xs:annotation>
+                    <xs:documentation>Das Datum an dem das Gerät gekauft wurde (Format TT.MM.JJJJ).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="Kaufpreis" type="Betrag">
+                    <xs:annotation>
+                        <xs:documentation>Der Preis der beim Kauf für das Gerät bezahlt wurde. Ist für das gewählte Versicherungsprodukt eine Kaufpreisklasse vorgesehen, so wird die korrekte Klasse aus dem Kaufpreis ermittelt.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="Gebrauchtgeraet" type="xs:boolean" fixed="true">
+                        <xs:annotation>
+                            <xs:documentation>(optional) Ist das Gerät als gebraucht, aufbereitet oder repariert verkauft worden? (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Baujahr" type="Datum">
+                        <xs:annotation>
+                            <xs:documentation>Baujahr des Gerätes. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:choice>
+                        <xs:element name="Kaufpreis" type="Betrag">
+                            <xs:annotation>
+                                <xs:documentation>Der Preis der beim Kauf für das Gerät bezahlt wurde. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Zeitwert" type="Betrag">
+                            <xs:annotation>
+                                <xs:documentation>Der aktuelle Zeitwert des Gerätes. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:sequence>
+            </xs:choice>
+            <xs:element name="Risiken" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Einige Produkte erlauben es dem Kunden zusätzliche Risiken auszuwählen (z.B.: Diebstahlschutz, Sofortschutz, etc.)</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Risiko" type="AntragRisiko" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Komponenten" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Komponente" type="AntragKomponente" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AntragRad">
+        <xs:annotation>
+            <xs:documentation>Gerätedatensatz, enthält alle Datenfelder zu einem Gerät.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Position" type="xs:positiveInteger">
+                <xs:annotation>
+                    <xs:documentation>Position des Fahrrades im Antrag. Wird später am Vertrag übernommen.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="Hersteller" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Name des Komponentenherstellers (z.b: Kettler)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="HerstellerCode" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Herstellercode von WERTGARANTIE
+                            Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:choice>
+                <xs:element name="Geraetekennzeichen" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Kennzeichen für die Art des Fahrrades
+                            Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="Mapping" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>WERTGARANTIE bietet die Möglichkeit verschiedene, partnerindividuelle Mappings für die Ermittlung von Gerätekennzeichen zu nutzen. In diesem Feld kann der Name des zu nutzenden Mappings hinterlegt werden. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Fahrradtyp" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Art der Fahrrades (z.B: Citybike)
+                                Aus diesem Feld wird das WERTGARANTIE Gerätekennzeichen aus dem zuvor angegeben Mapping abgeleitet. (Nur nach separater Abstimmung und Freischaltung nutzbar)
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:choice>
+            <xs:element name="Modellbezeichnung" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Die Typen- oder Modellbezeichnung des Herstellers für das Fahrrad (z.B: SuperSpider Black).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:sequence>
+                <xs:element name="Rahmennummer" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Die Rahmennummer des Rades</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Akkunummer" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>(optional, bei e-Bikes Pflicht) Die Seriennummer des Akkus</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+            <xs:element name="Kaufdatum" type="Datum">
+                <xs:annotation>
+                    <xs:documentation>Das Datum an dem das Rad gekauft wurde (Format TT.MM.JJJJ).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="Kaufpreis" type="Betrag">
+                    <xs:annotation>
+                        <xs:documentation>Der Preis der beim Kauf für das Rad bezahlt wurde. Ist für das gewählte Versicherungsprodukt eine Kaufpreisklasse vorgesehen, so wird die korrekte Klasse aus dem Kaufpreis ermittelt.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="GebrauchtGeraet" type="xs:boolean" fixed="true">
+                        <xs:annotation>
+                            <xs:documentation>(optional) Ist das Rad als gebraucht, aufbereitet oder repariert verkauft worden?</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Baujahr" type="Datum">
+                        <xs:annotation>
+                            <xs:documentation>Baujahr des Fahrrades.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:choice minOccurs="0">
+                        <xs:element name="Kaufpreis" type="Betrag">
+                            <xs:annotation>
+                                <xs:documentation>Der Preis der beim Kauf für das Rad bezahlt wurde.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Zeitwert" type="Betrag">
+                            <xs:annotation>
+                                <xs:documentation>Der aktuelle Zeitwert des Rades.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:sequence>
+            </xs:choice>
+            <xs:element name="Risiken" type="AntragRisiko" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Einige Produkte erlauben es dem Kunden zusätzliche Risiken auszuwählen (z.B.: Diebstahlschutz, Sofortschutz, etc.)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional, Pflicht bei Fahrradprodukten mit Diebstahlschutz) Angaben zum verwendeten Schloss. Entweder versichert der Vermittler dass er das Schloss geprüft hat oder es werden die Daten des Schlosses erwartet.</xs:documentation>
+                </xs:annotation>
+                <xs:element name="Schloss" type="AntragSchloss" />
+                <xs:element name="SchlossGeprueft" type="xs:boolean" fixed="true">
+                    <xs:annotation>
+                        <xs:documentation>Wurde geprüft, dass das Schloss den WERTGARANTIE anforderungen entspricht? (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AntragKommunikation">
+        <xs:annotation>
+            <xs:documentation>Gerätedatensatz für ein Gerät aus dem Kommunikationssortiment, enthält alle Datenfelder zu einem Gerät.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Position" type="xs:positiveInteger">
+                <xs:annotation>
+                    <xs:documentation>Position des Gerätes im Antrag. Wird später am Vertrag übernommen.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="Hersteller" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Name des Geräteherstellers (z.b: Apple)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="HerstellerCode" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Herstellercode von WERTGARANTIE
+                            Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:choice>
+                <xs:element name="Geraetekennzeichen" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Kennzeichen für die Art des Gerätes
+                            Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="Mapping" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>WERTGARANTIE bietet die Möglichkeit verschiedene, partnerindividuelle Mappings für die Ermittlung von Gerätekennzeichen zu nutzen. In diesem Feld kann der Name des zu nutzenden Mappings hinterlegt werden. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Geraetetyp" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Art des Gerätes (z.B: Smartphone)
+                                Aus diesem Feld wird das WERTGARANTIE Gerätekennzeichen aus dem zuvor angegeben Mapping abgeleitet. (Nur nach separater Abstimmung und Freischaltung nutzbar)
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:choice>
+            <xs:element name="IMEI" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Bei Mobilfunkgeräten ist dieses Feld mit der IMEI des Gerätes zu füllen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Kaufdatum" type="Datum">
+                <xs:annotation>
+                    <xs:documentation>Das Datum an dem das Gerät gekauft wurde (Format TT.MM.JJJJ).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="Kaufpreis" type="Betrag">
+                    <xs:annotation>
+                        <xs:documentation>Der Preis der beim Kauf für das Gerät bezahlt wurde. Ist für das gewählte Versicherungsprodukt eine Kaufpreisklasse vorgesehen, so wird die korrekte Klasse aus dem Kaufpreis ermittelt.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="GebrauchtGeraet" type="xs:boolean" fixed="true">
+                        <xs:annotation>
+                            <xs:documentation>(optional) Ist das Gerät als gebraucht, aufbereitet oder repariert verkauft worden? (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Baujahr" type="Datum">
+                        <xs:annotation>
+                            <xs:documentation>Baujahr des Gerätes. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:choice minOccurs="0">
+                        <xs:element name="Kaufpreis" type="Betrag">
+                            <xs:annotation>
+                                <xs:documentation>Der Preis der beim Kauf für das Gerät bezahlt wurde. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Zeitwert" type="Betrag">
+                            <xs:annotation>
+                                <xs:documentation>Der aktuelle Zeitwert des Gerätes. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:sequence>
+            </xs:choice>
+            <xs:element name="Risiken" type="AntragRisiko" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Einige Produkte erlauben es dem Kunden zusätzliche Risiken auszuwählen (z.B.: Diebstahlschutz, Sofortschutz, etc.)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AntragGebaeude">
+        <xs:annotation>
+            <xs:documentation>Gebäudedatensatz, enthält alle Datenfelder zu einem Gebäude.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Position" type="xs:positiveInteger">
+                <xs:annotation>
+                    <xs:documentation>Position des Gebäudes im Antrag. Wird später am Vertrag übernommen.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ObjektTyp" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Um welche Art Objekt handelt es sich. (Wohngebäude, Einliegerwohnung)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Anschrift" type="Anschrift">
+                <xs:annotation>
+                    <xs:documentation>Die Anschrift des Gebäudes</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="FachbetriebNummer" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <!--TODO: Noch beschreiben -->
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Fachbetrieb" type="Firmendaten">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <!--TODO: Noch beschreiben -->
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:element name="Risiken" type="AntragRisiko" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Einige Produkte erlauben es dem Kunden zusätzliche Risiken auszuwählen (z.B.: Diebstahlschutz, Sofortschutz, etc.)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AntragKomponente">
+        <xs:annotation>
+            <xs:documentation>Komponentendatensatz, enthält alle Datenfelder zu einer Komponente eines Gerätes.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Position" type="xs:positiveInteger">
+                <xs:annotation>
+                    <xs:documentation>Position der Komponente im Gerät. Wird später am Vertrag übernommen.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="Hersteller" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Name des Komponentenherstellers (z.b: Siemens)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="HerstellerCode" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Herstellercode von WERTGARANTIE
+                            Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:choice>
+                <xs:element name="Komponentenkennzeichen" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Kennzeichen für die Art der Komponente
+                            Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="Mapping" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>WERTGARANTIE bietet die Möglichkeit verschiedene, partnerindividuelle Mappings für die Ermittlung von Komponentenkennzeichen zu nutzen. In diesem Feld kann der Name des zu nutzenden Mappings hinterlegt werden. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Komponententyp" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Art der Komponente (z.B: Verstärker)
+                                Aus diesem Feld wird das WERTGARANTIE Komponentenkennzeichen aus dem zuvor angegeben Mapping abgeleitet. (Nur nach separater Abstimmung und Freischaltung nutzbar)
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:choice>
+            <xs:element name="Modellbezeichnung" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional) Die Typen- oder Modellbezeichnung des Herstellers für die Komponente (SP 15-30mm F/2.8 Di VC USD usw.).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Seriennummer" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Die Seriennummer der Komponente.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="60" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Kaufdatum" type="Datum" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>(optional, Pflicht bei Neugeräten) Das Datum an dem die Komponente gekauft wurde (Format TT.MM.JJJJ).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="Kaufpreis" type="Betrag">
+                    <xs:annotation>
+                        <xs:documentation>Der Preis der beim Kauf für die Komponentebezahlt wurde. Ist für das gewählte Versicherungsprodukt eine Kaufpreisklasse vorgesehen, so wird die korrekte Klasse aus dem Kaufpreis ermittelt.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="GebrauchtGeraet" type="xs:boolean" fixed="true">
+                        <xs:annotation>
+                            <xs:documentation>(optional) Ist die Komponente als gebraucht, aufbereitet oder repariert verkauft worden? (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Baujahr" type="Datum">
+                        <xs:annotation>
+                            <xs:documentation>Baujahr der Komponente des Gerätes. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:choice minOccurs="0">
+                        <xs:element name="Kaufpreis" type="Betrag">
+                            <xs:annotation>
+                                <xs:documentation>Der Preis der beim Kauf für die Komponente bezahlt wurde. Ist für das gewählte Versicherungsprodukt eine Kaufpreisklasse vorgesehen, so wird die korrekte Klasse aus dem Kaufpreis ermittelt. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Zeitwert" type="Betrag">
+                            <xs:annotation>
+                                <xs:documentation>Der aktuelle Zeitwert der Komponente. (Nur nach separater Abstimmung und Freischaltung nutzbar)</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:sequence>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AntragSchloss">
+        <xs:annotation>
+            <xs:documentation>Schlossdatensatz, enthält alle Datenfelder zu einem Schloss.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:choice>
+                <xs:element name="Hersteller" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Name des Schlossherstellers (z.b: Abus)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="HerstellerCode" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Herstellercode von WERTGARANTIE
+                            Für dieses Feld sind Schlüsselwerte vorgesehen. Diese finden Sie zum Elementnamen in der Tabelle unter: http://www.wertgarantie.de/XMLSchema/sst_schluesseltabelle.xlsx
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:element name="Art" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Art des Schlosses (Bügelschloss, Zahlenschloss, ...).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Modellbezeichnung" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Typen- oder Modellbezeichnung des Schlosses.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Schluesselnummer" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Schlüsselnummer des Schlosses.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

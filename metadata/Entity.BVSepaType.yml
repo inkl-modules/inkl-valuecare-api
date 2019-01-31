@@ -1,0 +1,34 @@
+Inkl\ValueCareApi\Entity\BVSepaType:
+    properties:
+        iBAN:
+            expose: true
+            access_type: public_method
+            serialized_name: IBAN
+            accessor:
+                getter: getIBAN
+                setter: setIBAN
+            type: string
+        kontoinhaber:
+            expose: true
+            access_type: public_method
+            serialized_name: Kontoinhaber
+            accessor:
+                getter: getKontoinhaber
+                setter: setKontoinhaber
+            type: string
+        bKOIdentNr:
+            expose: true
+            access_type: public_method
+            serialized_name: BKO_Ident_Nr
+            accessor:
+                getter: getBKOIdentNr
+                setter: setBKOIdentNr
+            type: int
+        mandatsreferenz:
+            expose: true
+            access_type: public_method
+            serialized_name: Mandatsreferenz
+            accessor:
+                getter: getMandatsreferenz
+                setter: setMandatsreferenz
+            type: string
