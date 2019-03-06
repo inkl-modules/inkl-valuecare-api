@@ -3,7 +3,6 @@
 namespace Inkl\ValueCareApi\Service;
 
 use Inkl\ValueCareApi\Client;
-use Inkl\ValueCareApi\Factory\LegalDocumentFactory;
 
 class ProductDataService
 {
@@ -16,11 +15,9 @@ class ProductDataService
 	 * @param Client $client
 	 * @param LegalDocumentFactory $legalDocumentFactory
 	 */
-	public function __construct(Client $client,
-	                            LegalDocumentFactory $legalDocumentFactory)
+	public function __construct(Client $client)
 	{
 		$this->client = $client;
-		$this->legalDocumentFactory = $legalDocumentFactory;
 	}
 
 	public function getLegalDocuments($applicationCode, $productType)
