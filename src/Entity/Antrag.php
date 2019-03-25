@@ -12,6 +12,7 @@ class Antrag
 	private $satznummer;
 	private $antragsdatum;
 	private $vermittlernummer;
+	private $vertragsnummer;
 
 	private $kundeAnrede;
 	private $kundeVorname;
@@ -35,6 +36,7 @@ class Antrag
 	private $produktTyp;
 
 	private $zahlungSelbstzahler;
+	private $zahlungVMRAbrechnung;
 
 	/**
 	 * @return mixed
@@ -141,6 +143,24 @@ class Antrag
 	public function setVermittlernummer($vermittlernummer)
 	{
 		$this->vermittlernummer = $vermittlernummer;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getVertragsnummer()
+	{
+		return $this->vertragsnummer;
+	}
+
+	/**
+	 * @param mixed $vertragsnummer
+	 * @return $this
+	 */
+	public function setVertragsnummer($vertragsnummer)
+	{
+		$this->vertragsnummer = $vertragsnummer;
 		return $this;
 	}
 
@@ -483,6 +503,24 @@ class Antrag
 	public function setZahlungSelbstzahler($zahlungSelbstzahler)
 	{
 		$this->zahlungSelbstzahler = $zahlungSelbstzahler;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getZahlungVMRAbrechnung()
+	{
+		return $this->zahlungVMRAbrechnung;
+	}
+
+	/**
+	 * @param mixed $zahlungVMRAbrechnung
+	 * @return $this
+	 */
+	public function setZahlungVMRAbrechnung($zahlungVMRAbrechnung)
+	{
+		$this->zahlungVMRAbrechnung = $zahlungVMRAbrechnung;
 		return $this;
 	}
 
