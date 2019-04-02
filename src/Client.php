@@ -7,7 +7,7 @@ use GuzzleHttp\Client as GuzzleClient;
 class Client
 {
     const API_TYPE = 'JSON';
-    const ENDPOINT = 'https://webtest.serviceeu.com/mdp/ws/dev/%s.pl';
+    const ENDPOINT = 'https://web.serviceeu.com/mdp/ws/prod/%s.pl';
 
     /** @var GuzzleClient */
     private $guzzleClient;
