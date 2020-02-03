@@ -29,9 +29,19 @@ class AntragXmlBuilder
 		$antragElement->appendChild($kundendatenElement);
 
 		$kundendatenElement->appendChild($dom->createElement('Anrede', $antrag->getKundeAnrede()));
-		$kundendatenElement->appendChild($dom->createElement('Vorname', htmlentities($antrag->getKundeVorname())));
-		$kundendatenElement->appendChild($dom->createElement('Nachname', htmlentities($antrag->getKundeNachname())));
-		$kundendatenElement->appendChild($dom->createElement('EmailPrivat', htmlentities($antrag->getKundeEmailPrivat())));
+
+		$element = $dom->createElement('Vorname');
+		$element->appendChild($dom->createCDATASection(htmlentities($antrag->getKundeVorname())));
+		$kundendatenElement->appendChild($element);
+
+		$element = $dom->createElement('Nachname');
+		$element->appendChild($dom->createCDATASection(htmlentities($antrag->getKundeNachname())));
+		$kundendatenElement->appendChild($element);
+
+		$element = $dom->createElement('EmailPrivat');
+		$element->appendChild($dom->createCDATASection(htmlentities($antrag->getKundeEmailPrivat())));
+		$kundendatenElement->appendChild($element);
+
 		$kundendatenElement->appendChild($dom->createElement('TelefonPrivat', $antrag->getKundeTelefonPrivat()));
 
 		$anschriftElement = $dom->createElement('Anschrift');
@@ -52,9 +62,17 @@ class AntragXmlBuilder
 		$antragElement->appendChild($geraetElement);
 
 		$geraetElement->appendChild($dom->createElement('Position', $antrag->getGeraetPosition()));
-		$geraetElement->appendChild($dom->createElement('Hersteller', htmlentities($antrag->getGeraetHersteller())));
+
+		$element = $dom->createElement('Hersteller');
+		$element->appendChild($dom->createCDATASection(htmlentities($antrag->getGeraetHersteller())));
+		$geraetElement->appendChild($element);
+
 		$geraetElement->appendChild($dom->createElement('Geraetekennzeichen', $antrag->getGeraetKennzeichen()));
-		$geraetElement->appendChild($dom->createElement('Modellbezeichnung', htmlentities($antrag->getGeraetModellBezeichnung())));
+
+		$element = $dom->createElement('Modellbezeichnung');
+		$element->appendChild($dom->createCDATASection(htmlentities($antrag->getGeraetModellBezeichnung())));
+		$geraetElement->appendChild($element);
+
 		$geraetElement->appendChild($dom->createElement('Seriennummer', $antrag->getGeraetSeriennummer()));
 		$geraetElement->appendChild($dom->createElement('Kaufdatum', $antrag->getGeraetKaufDatum()));
 		$geraetElement->appendChild($dom->createElement('Kaufpreis', $antrag->getGeraetKaufPreis()));
