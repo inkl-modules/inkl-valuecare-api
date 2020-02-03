@@ -29,9 +29,9 @@ class AntragXmlBuilder
 		$antragElement->appendChild($kundendatenElement);
 
 		$kundendatenElement->appendChild($dom->createElement('Anrede', $antrag->getKundeAnrede()));
-		$kundendatenElement->appendChild($dom->createElement('Vorname', $antrag->getKundeVorname()));
-		$kundendatenElement->appendChild($dom->createElement('Nachname', $antrag->getKundeNachname()));
-		$kundendatenElement->appendChild($dom->createElement('EmailPrivat', $antrag->getKundeEmailPrivat()));
+		$kundendatenElement->appendChild($dom->createElement('Vorname', htmlentities($antrag->getKundeVorname())));
+		$kundendatenElement->appendChild($dom->createElement('Nachname', htmlentities($antrag->getKundeNachname())));
+		$kundendatenElement->appendChild($dom->createElement('EmailPrivat', htmlentities($antrag->getKundeEmailPrivat())));
 		$kundendatenElement->appendChild($dom->createElement('TelefonPrivat', $antrag->getKundeTelefonPrivat()));
 
 		$anschriftElement = $dom->createElement('Anschrift');
@@ -52,9 +52,9 @@ class AntragXmlBuilder
 		$antragElement->appendChild($geraetElement);
 
 		$geraetElement->appendChild($dom->createElement('Position', $antrag->getGeraetPosition()));
-		$geraetElement->appendChild($dom->createElement('Hersteller', $antrag->getGeraetHersteller()));
+		$geraetElement->appendChild($dom->createElement('Hersteller', htmlentities($antrag->getGeraetHersteller())));
 		$geraetElement->appendChild($dom->createElement('Geraetekennzeichen', $antrag->getGeraetKennzeichen()));
-		$geraetElement->appendChild($dom->createElement('Modellbezeichnung', $antrag->getGeraetModellBezeichnung()));
+		$geraetElement->appendChild($dom->createElement('Modellbezeichnung', htmlentities($antrag->getGeraetModellBezeichnung())));
 		$geraetElement->appendChild($dom->createElement('Seriennummer', $antrag->getGeraetSeriennummer()));
 		$geraetElement->appendChild($dom->createElement('Kaufdatum', $antrag->getGeraetKaufDatum()));
 		$geraetElement->appendChild($dom->createElement('Kaufpreis', $antrag->getGeraetKaufPreis()));
