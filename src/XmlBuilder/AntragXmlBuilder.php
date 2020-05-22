@@ -47,7 +47,10 @@ class AntragXmlBuilder
 		$anschriftElement = $dom->createElement('Anschrift');
 		$kundendatenElement->appendChild($anschriftElement);
 
-		$anschriftElement->appendChild($dom->createElement('Strasse', $antrag->getKundeStrasse()));
+		$element = $dom->createElement('Strasse');
+		$element->appendChild($dom->createCDATASection(htmlentities($antrag->getKundeStrasse())));
+		$anschriftElement->appendChild($element);
+
 		$anschriftElement->appendChild($dom->createElement('PLZ', $antrag->getKundePlz()));
 		$anschriftElement->appendChild($dom->createElement('Ort', $antrag->getKundeOrt()));
 		$anschriftElement->appendChild($dom->createElement('Laenderkennzeichen', $antrag->getKundeLaenderkennzeichen()));
